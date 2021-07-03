@@ -1,5 +1,5 @@
 
-#Origami Code Challenge
+# Origami Code Challenge
 
 ### Build and run tests
 
@@ -7,7 +7,7 @@
 ./gradlew clean test
 ```
 
-###Objective  
+### Objective  
 
 The objective of this task is design, implement and test a thread-safe 'forgetting map'.  
 
