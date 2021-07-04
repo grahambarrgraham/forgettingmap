@@ -78,7 +78,7 @@ public class ForgettingMap<K, V> {
                     .sorted(comparator())
                     .map(Map.Entry::getKey)
                     .findFirst()
-                    .map(k -> wrappedMap.remove(k)); //should be foreach
+                    .map(k -> wrappedMap.remove(k));
         } else {
             wrappedMap.remove(currentLowest);
             invalidateLowest();
