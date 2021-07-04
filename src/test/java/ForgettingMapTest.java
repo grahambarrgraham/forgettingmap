@@ -120,7 +120,7 @@ class ForgettingMapTest {
     }
 
     @Test
-    @DisplayName("at capacity, when the most recently added key as been fetched, the key with the lowest number of references and lowest lexical value is evicted")
+    @DisplayName("at capacity, when the most recently added key has been fetched, the key with the lowest number of references and lowest lexical value is evicted")
     void tieBreak() {
 
         //given

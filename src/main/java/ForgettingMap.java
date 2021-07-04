@@ -6,9 +6,10 @@ import java.util.*;
 /**
  * Notes :
  * 1. Keeping to semantics of Java Map/AbstractMap with intent to extend AbstractMap, but extra effort
- * 2. Worst-case O(1) get and O(n-log n) put, with O(1) put if under capacity or lowest is known.  Preferred to maintaining TreeSet with O(log n) for get and put.
+ * 2. Worst-case O(1) get and O(n) put, with O(1) put if under capacity or lowest is known.  Preferred to maintaining
+ * TreeSet with O(log n) for get and put.
  * 3. Has edge-case on a tie-breaker, if most recently added key has not been fetched, it will be preferred for eviction.
- * 4. NOT thread-safe as-is, intent to extend AbstractMap and wrap with Collections.synchronizedMap, or make get and put sychnronized
+ * 4. NOT thread-safe as-is, intent to extend AbstractMap and wrap with Collections.synchronizedMap, or make get and put synchronized
  */
 public class ForgettingMap<K, V> {
 
@@ -75,9 +76,8 @@ public class ForgettingMap<K, V> {
         if (currentLowest == null) {
             wrappedMap.entrySet()
                     .stream()
-                    .sorted(comparator())
+                    .min(comparator()) //assuming here that min is O(n)
                     .map(Map.Entry::getKey)
-                    .findFirst()
                     .map(k -> wrappedMap.remove(k));
         } else {
             wrappedMap.remove(currentLowest);
@@ -92,7 +92,7 @@ public class ForgettingMap<K, V> {
 
     private AbstractMap.SimpleEntry<K, V> entry(Map.Entry<K, AccessCountingWrapper<V>> o1) {
         //note, it is not efficient to construct temporary objects in the context of a sort, needs rework
-        return new AbstractMap.SimpleEntry<K, V>(o1.getKey(), o1.getValue().getValue()); 
+        return new AbstractMap.SimpleEntry<K, V>(o1.getKey(), o1.getValue().getValue());
     }
 
     @AllArgsConstructor
